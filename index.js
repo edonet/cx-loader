@@ -13,11 +13,12 @@
  *****************************************
  */
 const suffix = `
-if (exports.locals) {
-    var locals = exports.locals,
+if (module.exports) {
+    let locals = module.exports,
         cx = require("classnames/bind").bind(locals);
 
-    exports.locals = {
+    // 抛出接口
+    module.exports = {
         __esModule: true,
         default: locals,
         csx: cx,
@@ -35,7 +36,7 @@ if (exports.locals) {
 module.exports = function loader(source) {
 
     // 添加绑定接口
-    if (source.lastIndexOf('exports.locals ')) {
+    if (source.indexOf('module.exports =') > -1) {
         return source + suffix;
     }
 
